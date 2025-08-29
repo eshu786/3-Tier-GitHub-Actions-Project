@@ -11,7 +11,7 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-    - host: a0e3fb07d9886422ab76ea913785c1ef-1244882532.ap-south-1.elb.amazonaws.com.nip.io
+    - host: <ELB_HOSTNAME>.nip.io
       http:
         paths:
           - path: /api
@@ -30,5 +30,5 @@ spec:
                   number: 80
   tls:
     - hosts:
-        - a0e3fb07d9886422ab76ea913785c1ef-1244882532.ap-south-1.elb.amazonaws.com.nip.io
+        - <ELB_HOSTNAME>.nip.io
       secretName: user-management-tls
