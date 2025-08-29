@@ -7,27 +7,11 @@ metadata:
     cert-manager.io/cluster-issuer: letsencrypt-prod
     nginx.ingress.kubernetes.io/ssl-redirect: "true"
     nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
   ingressClassName: nginx
   rules:
-    - host: adityajaiswal.com
-      http:
-        paths:
-          - path: /api
-            pathType: Prefix
-            backend:
-              service:
-                name: backend-svc
-                port:
-                  number: 5000
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: frontend-svc
-                port:
-                  number: 80
-    - host: www.adityajaiswal.com
+    - host: a0e3fb07d9886422ab76ea913785c1ef-1244882532.ap-south-1.elb.amazonaws.com.nip.io
       http:
         paths:
           - path: /api
@@ -46,6 +30,5 @@ spec:
                   number: 80
   tls:
     - hosts:
-        - adityajaiswal.com
-        - www.adityajaiswal.com
-      secretName: adityajaiswal-co-tls
+        - a0e3fb07d9886422ab76ea913785c1ef-1244882532.ap-south-1.elb.amazonaws.com.nip.io
+      secretName: user-management-tls
