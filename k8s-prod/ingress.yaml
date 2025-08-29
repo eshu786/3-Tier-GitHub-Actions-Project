@@ -4,11 +4,12 @@ metadata:
   name: user-management-ingress
   namespace: prod
   annotations:
-    nginx.ingress.kubernetes.io/ssl-redirect: "false"   # disable redirect to HTTPS
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"   # disable HTTPS redirect for testing
+    nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
   ingressClassName: nginx
   rules:
-    - http:   # remove host to match all requests
+    - http:
         paths:
           - path: /api
             pathType: Prefix
