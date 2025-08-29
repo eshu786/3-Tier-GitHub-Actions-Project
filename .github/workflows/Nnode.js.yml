@@ -135,7 +135,7 @@ jobs:
         with:
           context: ./api  
           push: true
-          tags: adijaiswal/backend:latest
+          tags: eshu786/backend:latest
           file: ./api/Dockerfile
 
   build_frontend_docker_image_and_push:
@@ -162,7 +162,7 @@ jobs:
         with:
           context: ./client
           push: true
-          tags: adijaiswal/frontend:latest
+          tags: eshu786/frontend:latest
           file: ./client/Dockerfile
 
   trivy_image_scan:
@@ -176,7 +176,7 @@ jobs:
         uses: aquasecurity/trivy-action@0.28.0
         with:
           scan-type: image
-          image-ref: adijaiswal/backend:latest
+          image-ref: eshu786/backend:latest
           format: table
           exit-code: '0'                 
           ignore-unfixed: true
@@ -187,7 +187,7 @@ jobs:
         uses: aquasecurity/trivy-action@0.28.0
         with:
           scan-type: image
-          image-ref: adijaiswal/frontend:latest
+          image-ref: eshu786/frontend:latest
           format: table
           exit-code: '0'              
           ignore-unfixed: true
