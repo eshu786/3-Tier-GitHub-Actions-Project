@@ -7,22 +7,23 @@ metadata:
     cert-manager.io/cluster-issuer: letsencrypt-prod
     nginx.ingress.kubernetes.io/ssl-redirect: "true"
     nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
-    nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+    nginx.ingress.kubernetes.io/use-regex: "true"
 spec:
   ingressClassName: nginx
   rules:
-    - host: <ELB_HOSTNAME>.nip.io
+    - host: a418cba63dff04181a8ddc61ee352c9e-1281588562.ap-south-1.elb.amazonaws.com.nip.io
       http:
         paths:
-          - path: /api
-            pathType: Prefix
+          - path: /api(/|$)(.*)
+            pathType: ImplementationSpecific
             backend:
               service:
                 name: backend-svc
                 port:
                   number: 5000
-          - path: /
-            pathType: Prefix
+          - path: /(.*)
+            pathType: ImplementationSpecific
             backend:
               service:
                 name: frontend-svc
@@ -30,5 +31,5 @@ spec:
                   number: 80
   tls:
     - hosts:
-        - <ELB_HOSTNAME>.nip.io
+        - a418cba63dff04181a8ddc61ee352c9e-1281588562.ap-south-1.elb.amazonaws.com.nip.io
       secretName: user-management-tls
