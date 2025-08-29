@@ -179,4 +179,4 @@ jobs:
       - name: Deploy Ingress (nip.io + TLS)
         run: |
           ELB_HOSTNAME=$(kubectl get svc -n ingress-nginx ingress-nginx-controller -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')
-          sed "s|<ELB_HOSTNAME>|$ELB_HOSTNAME|g" k8s-prod/user-management-ingress-nipio.yaml | kubectl apply -n prod -f -
+          sed "s|<ELB_HOSTNAME>|$ELB_HOSTNAME|g" k8s-prod/ingress.yaml | kubectl apply -n prod -f -
