@@ -16,7 +16,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '23'   # adjust version as per your Jenkins setup
+          node-version: '23'
 
       - name: Frontend Compilation (Syntax Check)
         run: |
@@ -224,11 +224,17 @@ jobs:
           mkdir -p $HOME/.kube
           echo "${{ secrets.EKS_KUBECONFIG }}" | base64 -d > $HOME/.kube/config
 
-      - name: Deploy to EKS
+      - name: Deploy Kubernetes resources
         run: |
-          kubectl apply -f k8s-prod/sc.yaml 
-          kubectl apply -f k8s-prod/mysql.yaml 
-          kubectl apply -f k8s-prod/backend.yaml 
-          kubectl apply -f k8s-prod/frontend.yaml 
-          kubectl apply -f k8s-prod/ci.yaml 
-          kubectl apply -f k8s-prod/ingress.yaml
+          kubectl apply -f k8s-prod/mysql.yaml
+          kubectl apply -f k8s-prod/backend.yaml
+          kubectl apply -f k8s-prod/frontend.yaml
+          kubectl apply -f k8s-prod/ci.yaml
+
+      - name: Deploy Ingress (nip.io + TLS)
+        run: |
+          # Get ELB hostname dynamically
+          ELB_HOSTNAME=$(kubectl get svc -n prod ingress-nginx-controller -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')
+          echo "Using ELB hostname: $ELB_HOSTNAME"
+          # Replace placeholder in Ingress manifest
+          sed "s|<ELB_HOSTNAME>|$ELB_HOSTNAME|g" k8s-prod/user-management-ingress-nipio.yaml | kubectl apply -f -
