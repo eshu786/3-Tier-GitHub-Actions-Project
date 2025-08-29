@@ -4,15 +4,11 @@ metadata:
   name: user-management-ingress
   namespace: prod
   annotations:
-    cert-manager.io/cluster-issuer: letsencrypt-prod
-    nginx.ingress.kubernetes.io/ssl-redirect: "true"
-    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
-    nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"   # disable redirect to HTTPS
 spec:
   ingressClassName: nginx
   rules:
-    - host: a418cba63dff04181a8ddc61ee352c9e-1281588562.ap-south-1.elb.amazonaws.com.nip.io
-      http:
+    - http:   # remove host to match all requests
         paths:
           - path: /api
             pathType: Prefix
@@ -28,7 +24,3 @@ spec:
                 name: frontend-svc
                 port:
                   number: 80
-  tls:
-    - hosts:
-        - a418cba63dff04181a8ddc61ee352c9e-1281588562.ap-south-1.elb.amazonaws.com.nip.io
-      secretName: user-management-tls
